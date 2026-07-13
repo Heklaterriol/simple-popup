@@ -38,7 +38,7 @@
 
                 <field
                     name="content"
-                    type="popupeditor"
+                    type="editor"
                     label="MOD_POPUP_FIELD_CONTENT_LABEL"
                     description="MOD_POPUP_FIELD_CONTENT_DESC"
                     filter="raw"
