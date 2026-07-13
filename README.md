@@ -1,127 +1,142 @@
-# mod_popup
+# Simple Pop-up
 
-Konfigurierbares Popup-Modul für Joomla 5/6. Zeigt nach einer einstellbaren
-Verzögerung ein Popup mit frei editierbarem HTML-Inhalt an – wahlweise als
-zentriertes Modal, als Leiste am oberen/unteren Rand oder als Panel an einer
-der vier Ecken/Seiten, mit abgedunkeltem Seitenhintergrund.
+A configurable popup module for Joomla 5 and 6.
 
-## Voraussetzungen
+Displays a popup with freely editable HTML content after a configurable delay. The popup can be shown as a centered modal, a bar at the top or bottom of the page, or as a panel attached to any corner or side. An optional dimmed page overlay is also supported.
 
-- Joomla 5 oder 6 (namespaced Modul-Architektur)
-- PHP 8.1 oder höher
+## Requirements
+
+* Joomla 5 or 6
+* PHP 8.1 or later
 
 ## Installation
 
-Wie jede Joomla-Erweiterung: **System → Installieren → Erweiterungen** →
-`mod_popup.zip` hochladen. Ein erneutes Hochladen einer neueren Version
-installiert automatisch als Update (`method="upgrade"` im Manifest).
+Install the module like any other Joomla extension:
 
-Danach unter **Inhalte → Website-Module** ein neues Modul vom Typ „Popup"
-anlegen, Inhalt und Optionen einstellen, Position/Zuweisung setzen,
-veröffentlichen.
+**System → Install → Extensions** → upload `mod_popup.zip`.
 
-## Tabs im Modul-Editor
+Uploading a newer version automatically performs an upgrade (`method="upgrade"` in the module manifest).
 
-### Inhalt
+After installation, go to **Content → Site Modules**, create a new **Popup** module, configure its content and options, assign a position and menu items, then publish it.
 
-| Feld | Beschreibung |
-|---|---|
-| Inhalt | HTML-Editor (WYSIWYG) für den Popup-Inhalt |
-| Link über das gesamte Popup (optional) | Macht das ganze Popup zu einem Link. Der Schließen-Button bleibt separat klickbar; andere Links/Buttons *innerhalb* des Editor-Inhalts werden dadurch allerdings unerreichbar, da die Klickfläche alles überdeckt |
-| Link in neuem Tab öffnen | Nur sichtbar, wenn ein Link gesetzt ist |
+## Module Options
 
-### Options
+### Content
 
-**Verhalten**
-| Feld | Beschreibung |
-|---|---|
-| Verzögerung (Millisekunden) | Zeit bis das Popup nach dem Laden der Seite erscheint |
-| Anzeige | „Einmalig pro Sitzung" (merkt sich das Schließen per `sessionStorage`) oder „Wiederholt" (erscheint bei jedem Seitenaufruf erneut) |
-| Position vertikal / horizontal | Getrennt wählbar (oben/mitte/unten × links/mitte/rechts) → 9 mögliche Ankerpunkte, Einfahr-Richtung passt sich automatisch an |
-| Hintergrundabdunkelung (%) | 0 = kein abgedunkelter Hintergrund |
+| Option                               | Description                                                                                                                                                                                 |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Content                              | WYSIWYG editor for the popup content.                                                                                                                                                       |
+| Link for the entire popup (optional) | Makes the whole popup clickable. The close button remains functional, but links and buttons inside the editor content become inaccessible because the overlay link covers the entire popup. |
+| Open link in new tab                 | Only available when a link has been specified.                                                                                                                                              |
 
-**Größe**
-| Feld | Beschreibung |
-|---|---|
-| Breite / Höhe | je automatisch (passt sich dem Inhalt an) / fest in Pixel / relativ in % / volle Breite bzw. Höhe (randlos) |
+### Behavior
 
-**Erscheinungsbild**
-| Feld | Beschreibung |
-|---|---|
-| Hintergrundfarbe | Farbe der Popup-Box |
-| Randstärke / Randfarbe | 0 px = kein Rand |
-| Schatten | kein / leicht / mittel / stark (Schlagschatten nach außen) |
+| Option                         | Description                                                                                                                                        |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Delay (milliseconds)           | Time before the popup appears after the page has loaded.                                                                                           |
+| Display mode                   | **Once per session** (remembers dismissal using `sessionStorage`) or **Every page load**.                                                          |
+| Vertical / Horizontal position | Top / Center / Bottom × Left / Center / Right (9 possible anchor positions). The slide-in animation automatically adapts to the selected position. |
+| Background dimming (%)         | 0 = no overlay.                                                                                                                                    |
 
-## Technischer Aufbau
+### Size
 
-```
+| Option         | Description                                                                                  |
+| -------------- | -------------------------------------------------------------------------------------------- |
+| Width / Height | Automatic (fit content), fixed pixels, percentage, or full width / full height (borderless). |
+
+### Appearance
+
+| Option                      | Description                                                              |
+| --------------------------- | ------------------------------------------------------------------------ |
+| Background color            | Popup background color.                                                  |
+| Border width / Border color | Set the border thickness and color. A width of 0 px disables the border. |
+| Shadow                      | None, Light, Medium, or Strong.                                          |
+
+## Project Structure
+
+```text
 mod_popup/
-├── mod_popup.xml            Manifest, Moduleinstellungen (<config>)
-├── services/provider.php    DI-Registrierung (Dispatcher-Factory)
+├── mod_popup.xml            Module manifest and configuration
+├── services/provider.php    Dependency injection registration
 ├── src/
-│   ├── Dispatcher/Dispatcher.php   liefert u. a. eine pro Instanz eindeutige "uid"
-│   └── Field/PopupeditorField.php  custom Feldtyp, siehe unten
-├── tmpl/default.php         Rendering: berechnet Styles aus den Parametern
+│   ├── Dispatcher/Dispatcher.php
+│   └── Field/PopupeditorField.php
+├── tmpl/default.php         Popup rendering
 ├── media/
 │   ├── css/popup.css
 │   └── js/popup.js
-└── language/{en-GB,de-DE}/  Sprachdateien
+└── language/{en-GB,de-DE}/  Language files
 ```
 
-Ein paar Entscheidungen, die beim Bau eine Rolle gespielt haben:
+## Design Notes
 
-- **Kein jQuery.** `popup.js` ist reines Vanilla-JS. jQuery ist seit Joomla 5/6
-  kein Kernbestandteil mehr und könnte in künftigen Joomla-Versionen ganz
-  entfallen.
-- **CSS/JS-Registrierung direkt per PHP**, nicht über `joomla.asset.json`.
-  Joomla lädt die `joomla.asset.json` eines *Moduls* (anders als bei
-  Komponenten/Templates) nicht automatisch ein; `tmpl/default.php` registriert
-  die Assets deshalb selbst über `registerStyle()`/`registerScript()`, mit
-  `assetExists()`-Prüfung, damit mehrere Modul-Instanzen auf derselben Seite
-  sich nicht in die Quere kommen.
-- **Eindeutige ID pro Instanz** (`hkpopup-<module-id>`): DOM-ID und
-  `sessionStorage`-Schlüssel hängen an der Modul-ID, damit mehrere Popups auf
-  einer Seite unabhängig voneinander funktionieren.
-- **`PopupeditorField`** (eigener Feldtyp, erbt von Joomlas `EditorField`):
-  Das Modul-Bearbeiten-Formular läuft komplett im Administrator; unser
-  Web-Asset-System aus `tmpl/default.php` greift dort nicht. Damit das
-  Editor-Feld trotzdem die volle Formularbreite nutzt statt durch eine für das
-  Label reservierte Spalte eingeengt zu werden, hängt dieser Feldtyp einen
-  kleinen, auf die eigene Feld-ID beschränkten `<style>`-Block an sein
-  Eingabe-HTML an. Das Label selbst wird über das Joomla-Bordmittel
-  `hiddenLabel="true"` barrierefrei ausgeblendet (bleibt für Screenreader
-  vorhanden).
-- **Fullwidth/Fullheight ohne Rand**: `popup.css` begrenzt die Box standardmäßig
-  auf `max-width: 95vw` / `max-height: 95vh` als Sicherheitsnetz gegen
-  Überlaufen. Bei „volle Breite"/„volle Höhe" wird das pro Instanz per
-  Inline-Style auf `100%` überschrieben, sonst bliebe ein Rand von ca. 2,5 %
-  pro Seite stehen.
+Some implementation details may be useful if you intend to modify or extend the module.
 
-## Bekannte Einschränkungen
+### No jQuery
 
-- „Einmalig" bezieht sich auf die Browser-Sitzung (`sessionStorage`), nicht auf
-  einen längeren Zeitraum. Für „X Tage nicht erneut anzeigen" bräuchte es
-  stattdessen ein Cookie mit Ablaufdatum – bislang nicht umgesetzt.
-- Ist ein Link übers ganze Popup gesetzt, werden andere Links/Buttons
-  innerhalb des Editor-Inhalts unerreichbar (siehe oben).
-- Es gibt keine automatische Kontrastanpassung der Schrift an die gewählte
-  Hintergrundfarbe.
+The frontend JavaScript is written in plain JavaScript. Since Joomla 5 no longer depends on jQuery, the module avoids it completely.
 
-## Versionshistorie
+### Asset Registration
 
-- **1.2.2** – README.md ergänzt.
-- **1.2.1** – `hiddenLabel="true"` statt eigenem Stacking-Layout für das
-  Editor-Feld.
-- **1.2.0** – Verzeichnisstruktur korrigiert (`media/css`, `media/js` ohne
-  doppelten Modulordner); Verhalten/Größe/Erscheinungsbild zu einem
-  gemeinsamen Options-Tab zusammengeführt; echtes randloses
-  Fullwidth/Fullheight; custom Editor-Feldtyp für volle Feldbreite.
-- **1.1.1** – Fix: `WebAssetException`, da Joomla die `joomla.asset.json`
-  eines Moduls nicht automatisch lädt; Assets werden seither direkt per PHP
-  registriert.
-- **1.1.0** – Größe (Breite/Höhe: automatisch/Pixel/%/voll), vertikale und
-  horizontale Position getrennt wählbar, Verzögerung in Millisekunden,
-  einmalige/wiederholte Anzeige.
-- **1.0.0** – Erste Version: Inhalt, Position (oben/unten/links/rechts/mittig),
-  Verzögerung in Sekunden, Hintergrundabdunkelung, Hintergrundfarbe, Rand,
-  Schatten, optionaler Link übers ganze Popup.
+Instead of using `joomla.asset.json`, CSS and JavaScript are registered directly in `tmpl/default.php`.
+
+Unlike components and templates, Joomla does not automatically load a module's `joomla.asset.json`. Assets are therefore registered manually using `registerStyle()` and `registerScript()`, with `assetExists()` checks to avoid duplicate registrations when multiple popup modules are published on the same page.
+
+### Unique Instance IDs
+
+Each module instance receives its own unique ID (`hkpopup-<module-id>`).
+
+This ID is used for both the DOM element and the corresponding `sessionStorage` key, allowing multiple popup instances to work independently.
+
+### Custom Editor Field
+
+`PopupeditorField` extends Joomla's `EditorField`.
+
+Because the module edit form runs entirely in the administrator backend, the frontend asset system is unavailable there. The custom field therefore injects a small CSS block to allow the editor to span the full available width instead of being constrained by Joomla's label column.
+
+The label itself is hidden accessibly using Joomla's built-in `hiddenLabel="true"` attribute, so it remains available to screen readers.
+
+### True Full Width / Full Height
+
+By default, `popup.css` limits the popup to `95vw` and `95vh` to prevent accidental overflow.
+
+When **Full Width** or **Full Height** is selected, those limits are overridden per instance with inline styles (`100%`) so the popup can truly fill the available space.
+
+## Known Limitations
+
+* **Once per session** uses `sessionStorage`. A "Don't show again for X days" option would require cookies with an expiration date and is currently not implemented.
+* If the entire popup is configured as a link, any links or buttons inside the popup content become inaccessible.
+* Text color is not automatically adjusted to match the selected background color.
+
+## Version History
+
+### 1.2.2
+
+* Added this README.
+
+### 1.2.1
+
+* Replaced the custom editor layout with Joomla's built-in `hiddenLabel="true"` support.
+
+### 1.2.0
+
+* Corrected the media directory structure.
+* Merged **Behavior**, **Size**, and **Appearance** into a single **Options** tab.
+* Added true borderless full-width/full-height mode.
+* Added a custom editor field for full-width editing.
+
+### 1.1.1
+
+* Fixed `WebAssetException` caused by Joomla not automatically loading `joomla.asset.json` for modules.
+* Assets are now registered directly in PHP.
+
+### 1.1.0
+
+* Added configurable width and height.
+* Added independent vertical and horizontal positioning.
+* Changed the delay setting to milliseconds.
+* Added once-per-session and repeated display modes.
+
+### 1.0.0
+
+Initial release featuring configurable content, positioning, delay, background overlay, background color, border, shadow, and an optional link covering the entire popup.
