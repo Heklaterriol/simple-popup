@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" client="site" method="upgrade">
+    <name>MOD_POPUP</name>
+    <author>Hekla</author>
+    <creationDate>2026-07</creationDate>
+    <copyright>Copyright (C) 2026 Hekla. All rights reserved.</copyright>
+    <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
+    <version>1.2.2</version>
+    <description>MOD_POPUP_XML_DESCRIPTION</description>
+
+    <namespace path="src">Hekla\Module\Popup</namespace>
+
+    <files>
+        <folder module="mod_popup">services</folder>
+        <folder>src</folder>
+        <folder>tmpl</folder>
+        <folder>language</folder>
+        <file>mod_popup.xml</file>
+        <file>README.md</file>
+    </files>
+
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_popup.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_popup.sys.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_popup.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_popup.sys.ini</language>
+    </languages>
+
+    <media destination="mod_popup" folder="media">
+        <folder>css</folder>
+        <folder>js</folder>
+    </media>
+
+    <config>
+        <fields name="params" addfieldprefix="Hekla\Module\Popup\Field">
+
+            <fieldset name="basic" label="MOD_POPUP_FIELDSET_CONTENT">
+
+                <field
+                    name="content"
+                    type="popupeditor"
+                    label="MOD_POPUP_FIELD_CONTENT_LABEL"
+                    description="MOD_POPUP_FIELD_CONTENT_DESC"
+                    filter="raw"
+                    buttons="true"
+                    hiddenLabel="true"
+                />
+
+                <field
+                    name="link_url"
+                    type="url"
+                    label="MOD_POPUP_FIELD_LINK_URL_LABEL"
+                    description="MOD_POPUP_FIELD_LINK_URL_DESC"
+                    filter="url"
+                />
+
+                <field
+                    name="link_target_blank"
+                    type="radio"
+                    label="MOD_POPUP_FIELD_LINK_TARGET_LABEL"
+                    class="btn-group btn-group-yesno"
+                    default="1"
+                    layout="joomla.form.field.radio.switcher"
+                    showon="link_url!:"
+                >
+                    <option value="0">JNO</option>
+                    <option value="1">JYES</option>
+                </field>
+
+            </fieldset>
+
+            <fieldset name="options" label="MOD_POPUP_FIELDSET_OPTIONS">
+
+                <field name="spacer_behaviour" type="spacer" label="MOD_POPUP_FIELDSET_BEHAVIOUR" hr="true" />
+
+                <field
+                    name="delay_ms"
+                    type="number"
+                    label="MOD_POPUP_FIELD_DELAY_LABEL"
+                    description="MOD_POPUP_FIELD_DELAY_DESC"
+                    default="5000"
+                    min="0"
+                    max="60000"
+                    step="100"
+                    filter="integer"
+                />
+
+                <field
+                    name="repeat_mode"
+                    type="list"
+                    label="MOD_POPUP_FIELD_REPEAT_LABEL"
+                    description="MOD_POPUP_FIELD_REPEAT_DESC"
+                    default="once"
+                >
+                    <option value="once">MOD_POPUP_FIELD_REPEAT_ONCE</option>
+                    <option value="repeated">MOD_POPUP_FIELD_REPEAT_REPEATED</option>
+                </field>
+
+                <field
+                    name="position_vertical"
+                    type="list"
+                    label="MOD_POPUP_FIELD_POSITION_V_LABEL"
+                    description="MOD_POPUP_FIELD_POSITION_V_DESC"
+                    default="middle"
+                >
+                    <option value="top">MOD_POPUP_FIELD_POSITION_TOP</option>
+                    <option value="middle">MOD_POPUP_FIELD_POSITION_MIDDLE</option>
+                    <option value="bottom">MOD_POPUP_FIELD_POSITION_BOTTOM</option>
+                </field>
+
+                <field
+                    name="position_horizontal"
+                    type="list"
+                    label="MOD_POPUP_FIELD_POSITION_H_LABEL"
+                    description="MOD_POPUP_FIELD_POSITION_H_DESC"
+                    default="center"
+                >
+                    <option value="left">MOD_POPUP_FIELD_POSITION_LEFT</option>
+                    <option value="center">MOD_POPUP_FIELD_POSITION_CENTER</option>
+                    <option value="right">MOD_POPUP_FIELD_POSITION_RIGHT</option>
+                </field>
+
+                <field
+                    name="overlay_opacity"
+                    type="range"
+                    label="MOD_POPUP_FIELD_OVERLAY_OPACITY_LABEL"
+                    description="MOD_POPUP_FIELD_OVERLAY_OPACITY_DESC"
+                    default="55"
+                    min="0"
+                    max="90"
+                    step="5"
+                    filter="integer"
+                />
+
+                <field name="spacer_size" type="spacer" label="MOD_POPUP_FIELDSET_SIZE" hr="true" />
+
+                <field
+                    name="width_mode"
+                    type="list"
+                    label="MOD_POPUP_FIELD_WIDTH_MODE_LABEL"
+                    description="MOD_POPUP_FIELD_WIDTH_MODE_DESC"
+                    default="px"
+                >
+                    <option value="auto">MOD_POPUP_FIELD_SIZE_MODE_AUTO</option>
+                    <option value="px">MOD_POPUP_FIELD_SIZE_MODE_PX</option>
+                    <option value="percent">MOD_POPUP_FIELD_SIZE_MODE_PERCENT</option>
+                    <option value="full">MOD_POPUP_FIELD_WIDTH_MODE_FULL</option>
+                </field>
+
+                <field
+                    name="width_px"
+                    type="number"
+                    label="MOD_POPUP_FIELD_WIDTH_PX_LABEL"
+                    default="480"
+                    min="100"
+                    max="2000"
+                    step="10"
+                    filter="integer"
+                    showon="width_mode:px"
+                />
+
+                <field
+                    name="width_percent"
+                    type="number"
+                    label="MOD_POPUP_FIELD_WIDTH_PERCENT_LABEL"
+                    default="60"
+                    min="1"
+                    max="100"
+                    step="1"
+                    filter="integer"
+                    showon="width_mode:percent"
+                />
+
+                <field
+                    name="height_mode"
+                    type="list"
+                    label="MOD_POPUP_FIELD_HEIGHT_MODE_LABEL"
+                    description="MOD_POPUP_FIELD_HEIGHT_MODE_DESC"
+                    default="auto"
+                >
+                    <option value="auto">MOD_POPUP_FIELD_SIZE_MODE_AUTO</option>
+                    <option value="px">MOD_POPUP_FIELD_SIZE_MODE_PX</option>
+                    <option value="percent">MOD_POPUP_FIELD_SIZE_MODE_PERCENT</option>
+                    <option value="full">MOD_POPUP_FIELD_HEIGHT_MODE_FULL</option>
+                </field>
+
+                <field
+                    name="height_px"
+                    type="number"
+                    label="MOD_POPUP_FIELD_HEIGHT_PX_LABEL"
+                    default="400"
+                    min="100"
+                    max="2000"
+                    step="10"
+                    filter="integer"
+                    showon="height_mode:px"
+                />
+
+                <field
+                    name="height_percent"
+                    type="number"
+                    label="MOD_POPUP_FIELD_HEIGHT_PERCENT_LABEL"
+                    default="60"
+                    min="1"
+                    max="100"
+                    step="1"
+                    filter="integer"
+                    showon="height_mode:percent"
+                />
+
+                <field name="spacer_appearance" type="spacer" label="MOD_POPUP_FIELDSET_APPEARANCE" hr="true" />
+
+                <field
+                    name="bg_color"
+                    type="color"
+                    label="MOD_POPUP_FIELD_BG_COLOR_LABEL"
+                    default="#ffffff"
+                />
+
+                <field
+                    name="border_width"
+                    type="number"
+                    label="MOD_POPUP_FIELD_BORDER_WIDTH_LABEL"
+                    description="MOD_POPUP_FIELD_BORDER_WIDTH_DESC"
+                    default="0"
+                    min="0"
+                    max="20"
+                    step="1"
+                    filter="integer"
+                />
+
+                <field
+                    name="border_color"
+                    type="color"
+                    label="MOD_POPUP_FIELD_BORDER_COLOR_LABEL"
+                    default="#cccccc"
+                />
+
+                <field
+                    name="box_shadow"
+                    type="list"
+                    label="MOD_POPUP_FIELD_SHADOW_LABEL"
+                    description="MOD_POPUP_FIELD_SHADOW_DESC"
+                    default="medium"
+                >
+                    <option value="none">MOD_POPUP_FIELD_SHADOW_NONE</option>
+                    <option value="soft">MOD_POPUP_FIELD_SHADOW_SOFT</option>
+                    <option value="medium">MOD_POPUP_FIELD_SHADOW_MEDIUM</option>
+                    <option value="strong">MOD_POPUP_FIELD_SHADOW_STRONG</option>
+                </field>
+
+            </fieldset>
+
+        </fields>
+    </config>
+</extension>
