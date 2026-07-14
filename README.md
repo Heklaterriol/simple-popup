@@ -97,6 +97,8 @@ A few decisions that shaped the build:
   background, remember to also set a lighter text/link colour.
 
 ## Version history
+- **1.3.2** – Minor fixes.
+- **1.3.1** – Minor fixes.
 - **1.3.0** – Add Joomla native update routine.
 - **1.2.0** – minor fixes. Change of the mod structure and renaming to 
   eliminating the risk of confusion with other modules.
