@@ -97,6 +97,7 @@ A few decisions that shaped the build:
   background, remember to also set a lighter text/link colour.
 
 ## Version history
+- **1.3.0** – Add Joomla native update routine.
 - **1.2.0** – minor fixes. Change of the mod structure and renaming to 
   eliminating the risk of confusion with other modules.
 - **1.1.0** – Added text colour and link colour (standard Joomla colour
