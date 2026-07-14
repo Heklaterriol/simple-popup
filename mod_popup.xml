@@ -59,7 +59,6 @@
                 </field>
             </fieldset>
             <fieldset name="options" label="MOD_SIMPLEPOPUP_FIELDSET_OPTIONS">
-                <field name="spacer_behaviour" type="spacer" label="MOD_SIMPLEPOPUP_FIELDSET_BEHAVIOUR" hr="true" />
                 <field
                     name="delay_ms"
                     type="number"
@@ -128,7 +127,6 @@
                     step="5"
                     filter="integer"
                 />
-                <field name="spacer_size" type="spacer" label="MOD_SIMPLEPOPUP_FIELDSET_SIZE" hr="true" />
                 <field
                     name="width_mode"
                     type="list"
@@ -197,7 +195,6 @@
                     filter="integer"
                     showon="height_mode:percent"
                 />
-                <field name="spacer_appearance" type="spacer" label="MOD_SIMPLEPOPUP_FIELDSET_APPEARANCE" hr="true" />
                 <field name="bg_color" type="color" label="MOD_SIMPLEPOPUP_FIELD_BG_COLOR_LABEL" default="#ffffff" />
 
                 <field
