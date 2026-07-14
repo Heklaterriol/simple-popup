@@ -23,7 +23,7 @@
         <sha384>d9874cf8d67f1680d125c9523570a7636e0f900907018aab29fa3a2aea3cbb3a20fa749019b69ed3c3b6e3459ca7d52e</sha384>
         <sha512>db9133288032a35831048a5ef568ab085e487003cae4f230d881c6f0c7e58c7b8e96b9a9fd9038caff380c0ed2fdadb90324ea09014d7a4b1ffbcc60114a00ed</sha512>
         <date>2026-07-14 18:00</date>
-        <notes>Simple Popup Module v1.3 for Joomla! 5.4.x and Joomla! 6.x. Requires PHP 8.1 or newer. Configurable popup module for Joomla 5/6. Shows a popup with freely editable HTML content after an adjustable delay - as a centred modal, a bar at the top/bottom edge, or a panel anchored to one of the four corners/sides, with a dimmed page background.</notes>
+        <notes>Simple Popup Module v1.3.1 for Joomla! 5.4.x and Joomla! 6.x. Requires PHP 8.1 or newer. Configurable popup module for Joomla 5/6. Shows a popup with freely editable HTML content after an adjustable delay - as a centred modal, a bar at the top/bottom edge, or a panel anchored to one of the four corners/sides, with a dimmed page background.</notes>
         <changes>Add Joomla native update routine.</changes>
     </update>
 </updates>
