@@ -26,7 +26,6 @@
     overflow-y: auto;
     border-radius: 10px;
     padding: 32px 28px;
-    color: #222;
     text-align: left;
     box-sizing: border-box;
     transition: transform 0.45s ease;
@@ -35,6 +34,10 @@
 
 .hkpopup-overlay.is-visible .hkpopup-box {
     transform: none;
+}
+
+.hkpopup-content a {
+    color: var(--hkpopup-link-color, revert);
 }
 
 .hkpopup-close {

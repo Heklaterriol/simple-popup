@@ -5,11 +5,9 @@
     <creationDate>2026-07</creationDate>
     <copyright>Copyright (C) 2026 Hekla. All rights reserved.</copyright>
     <license>GNU General Public License version 2 or later; see LICENSE.txt</license>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <description>MOD_POPUP_XML_DESCRIPTION</description>
-
     <namespace path="src">Hekla\Module\Popup</namespace>
-
     <files>
         <folder module="mod_popup">services</folder>
         <folder>src</folder>
@@ -18,23 +16,19 @@
         <file>mod_popup.xml</file>
         <file>README.md</file>
     </files>
-
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_popup.ini</language>
         <language tag="en-GB">language/en-GB/en-GB.mod_popup.sys.ini</language>
         <language tag="de-DE">language/de-DE/de-DE.mod_popup.ini</language>
         <language tag="de-DE">language/de-DE/de-DE.mod_popup.sys.ini</language>
     </languages>
-
     <media destination="mod_popup" folder="media">
         <folder>css</folder>
         <folder>js</folder>
     </media>
-
     <config>
-        <fields name="params">
+        <fields name="params" addfieldprefix="Hekla\Module\Popup\Field">
             <fieldset name="basic" label="MOD_POPUP_FIELDSET_CONTENT">
-
                 <field
                     name="content"
                     type="editor"
@@ -44,7 +38,6 @@
                     buttons="true"
                     hiddenLabel="true"
                 />
-
                 <field
                     name="link_url"
                     type="url"
@@ -52,7 +45,6 @@
                     description="MOD_POPUP_FIELD_LINK_URL_DESC"
                     filter="url"
                 />
-
                 <field
                     name="link_target_blank"
                     type="radio"
@@ -65,13 +57,9 @@
                     <option value="0">JNO</option>
                     <option value="1">JYES</option>
                 </field>
-
             </fieldset>
-
             <fieldset name="options" label="MOD_POPUP_FIELDSET_OPTIONS">
-
                 <field name="spacer_behaviour" type="spacer" label="MOD_POPUP_FIELDSET_BEHAVIOUR" hr="true" />
-
                 <field
                     name="delay_ms"
                     type="number"
@@ -83,7 +71,6 @@
                     step="100"
                     filter="integer"
                 />
-
                 <field
                     name="repeat_mode"
                     type="list"
@@ -93,8 +80,21 @@
                 >
                     <option value="once">MOD_POPUP_FIELD_REPEAT_ONCE</option>
                     <option value="repeated">MOD_POPUP_FIELD_REPEAT_REPEATED</option>
+                    <option value="cookie">MOD_POPUP_FIELD_REPEAT_COOKIE</option>
                 </field>
 
+                <field
+                    name="cookie_hours"
+                    type="number"
+                    label="MOD_POPUP_FIELD_COOKIE_HOURS_LABEL"
+                    description="MOD_POPUP_FIELD_COOKIE_HOURS_DESC"
+                    default="24"
+                    min="1"
+                    max="8760"
+                    step="1"
+                    filter="integer"
+                    showon="repeat_mode:cookie"
+                />
                 <field
                     name="position_vertical"
                     type="list"
@@ -106,7 +106,6 @@
                     <option value="middle">MOD_POPUP_FIELD_POSITION_MIDDLE</option>
                     <option value="bottom">MOD_POPUP_FIELD_POSITION_BOTTOM</option>
                 </field>
-
                 <field
                     name="position_horizontal"
                     type="list"
@@ -118,7 +117,6 @@
                     <option value="center">MOD_POPUP_FIELD_POSITION_CENTER</option>
                     <option value="right">MOD_POPUP_FIELD_POSITION_RIGHT</option>
                 </field>
-
                 <field
                     name="overlay_opacity"
                     type="range"
@@ -130,9 +128,7 @@
                     step="5"
                     filter="integer"
                 />
-
                 <field name="spacer_size" type="spacer" label="MOD_POPUP_FIELDSET_SIZE" hr="true" />
-
                 <field
                     name="width_mode"
                     type="list"
@@ -145,7 +141,6 @@
                     <option value="percent">MOD_POPUP_FIELD_SIZE_MODE_PERCENT</option>
                     <option value="full">MOD_POPUP_FIELD_WIDTH_MODE_FULL</option>
                 </field>
-
                 <field
                     name="width_px"
                     type="number"
@@ -157,7 +152,6 @@
                     filter="integer"
                     showon="width_mode:px"
                 />
-
                 <field
                     name="width_percent"
                     type="number"
@@ -169,7 +163,6 @@
                     filter="integer"
                     showon="width_mode:percent"
                 />
-
                 <field
                     name="height_mode"
                     type="list"
@@ -182,7 +175,6 @@
                     <option value="percent">MOD_POPUP_FIELD_SIZE_MODE_PERCENT</option>
                     <option value="full">MOD_POPUP_FIELD_HEIGHT_MODE_FULL</option>
                 </field>
-
                 <field
                     name="height_px"
                     type="number"
@@ -194,7 +186,6 @@
                     filter="integer"
                     showon="height_mode:px"
                 />
-
                 <field
                     name="height_percent"
                     type="number"
@@ -206,16 +197,24 @@
                     filter="integer"
                     showon="height_mode:percent"
                 />
-
                 <field name="spacer_appearance" type="spacer" label="MOD_POPUP_FIELDSET_APPEARANCE" hr="true" />
+                <field name="bg_color" type="color" label="MOD_POPUP_FIELD_BG_COLOR_LABEL" default="#ffffff" />
 
                 <field
-                    name="bg_color"
+                    name="text_color"
                     type="color"
-                    label="MOD_POPUP_FIELD_BG_COLOR_LABEL"
-                    default="#ffffff"
+                    label="MOD_POPUP_FIELD_TEXT_COLOR_LABEL"
+                    description="MOD_POPUP_FIELD_TEXT_COLOR_DESC"
+                    default="#222222"
                 />
 
+                <field
+                    name="link_color"
+                    type="color"
+                    label="MOD_POPUP_FIELD_LINK_COLOR_LABEL"
+                    description="MOD_POPUP_FIELD_LINK_COLOR_DESC"
+                    default=""
+                />
                 <field
                     name="border_width"
                     type="number"
@@ -227,14 +226,7 @@
                     step="1"
                     filter="integer"
                 />
-
-                <field
-                    name="border_color"
-                    type="color"
-                    label="MOD_POPUP_FIELD_BORDER_COLOR_LABEL"
-                    default="#cccccc"
-                />
-
+                <field name="border_color" type="color" label="MOD_POPUP_FIELD_BORDER_COLOR_LABEL" default="#cccccc" />
                 <field
                     name="box_shadow"
                     type="list"
@@ -247,9 +239,7 @@
                     <option value="medium">MOD_POPUP_FIELD_SHADOW_MEDIUM</option>
                     <option value="strong">MOD_POPUP_FIELD_SHADOW_STRONG</option>
                 </field>
-
             </fieldset>
-
         </fields>
     </config>
 </extension>

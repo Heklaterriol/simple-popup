@@ -16,12 +16,12 @@ use Joomla\CMS\Language\Text;
  * @var string                   $uid
  */
 
-// CSS/JS des Moduls registrieren. Wichtig: Joomla liest die joomla.asset.json
-// eines Moduls (anders als bei Komponenten/Templates) NICHT automatisch ein,
-// daher wird hier direkt per PHP registriert. Die assetExists()-Prüfung
-// verhindert eine "already registered"-Kollision, falls das Modul mehrfach
-// auf derselben Seite eingebunden ist; useStyle()/useScript() sind danach
-// ohnehin idempotent.
+// Register the module's CSS/JS. Important: Joomla does NOT automatically read 
+// the joomla.asset.json file for a module (unlike with components/templates),
+// so it is registered directly via PHP here. The assetExists() check
+// prevents an “already registered” conflict if the module is included 
+// multiple times on the same page; useStyle()/useScript() are idempotent
+// anyway after that.
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
 if (!$wa->assetExists('style', 'mod_popup.popup')) {
@@ -40,9 +40,10 @@ $linkTargetBlank = (int) $params->get('link_target_blank', 1);
 
 $delayMs    = max(0, (int) $params->get('delay_ms', 5000));
 $repeatMode = (string) $params->get('repeat_mode', 'once');
-if (!in_array($repeatMode, ['once', 'repeated'], true)) {
+if (!in_array($repeatMode, ['once', 'repeated', 'cookie'], true)) {
     $repeatMode = 'once';
 }
+$cookieHours = max(1, (int) $params->get('cookie_hours', 24));
 
 $vertical   = (string) $params->get('position_vertical', 'middle');
 $horizontal = (string) $params->get('position_horizontal', 'center');
@@ -59,7 +60,7 @@ $offsetX        = $offsetXMap[$horizontal] ?? 0;
 
 $overlayOpacity = max(0, min(90, (int) $params->get('overlay_opacity', 55))) / 100;
 
-// Größe
+// Size
 $widthMode  = (string) $params->get('width_mode', 'px');
 $heightMode = (string) $params->get('height_mode', 'auto');
 
@@ -102,19 +103,21 @@ switch ($heightMode) {
         break;
 }
 
-// Randabstand des Overlays: 0, wenn die jeweilige Achse randlos ("full") sein soll.
+// Overlay margin: 0 if the respective axis should be borderless (“full”).
 $hPad = $widthMode === 'full' ? 0 : 24;
 $vPad = $heightMode === 'full' ? 0 : 24;
 
-// popup.css setzt als Sicherheitsnetz max-width:95vw / max-height:95vh, damit die
-// Box nie über den Bildschirmrand hinausragt. Bei "full" würde das genau den
-// gewünschten Rand von 0 wieder zunichtemachen, daher hier pro Instanz auf 100%
-// überschrieben (Inline-Style hat Vorrang vor der Klassenregel in popup.css).
+// popup.css sets `max-width: 95vw` / `max-height: 95vh` as a safety net so
+// that the box never extends beyond the edge of the screen. With “full,” this 
+// would negate the desired 0-pixel margin, so it is overridden to 100% per 
+// instance (inline styles take precedence over the class rule in popup.css).
 $maxWidthCss  = $widthMode === 'full' ? '100%' : '95vw';
 $maxHeightCss = $heightMode === 'full' ? '100%' : '95vh';
 
-// Erscheinungsbild
+// Appearance
 $bgColor      = (string) ($params->get('bg_color', '#ffffff') ?: '#ffffff');
+$textColor    = trim((string) $params->get('text_color', '#222222'));
+$linkColor    = trim((string) $params->get('link_color', ''));
 $borderWidth  = max(0, (int) $params->get('border_width', 0));
 $borderColor  = (string) ($params->get('border_color', '#cccccc') ?: '#cccccc');
 $boxShadowKey = (string) $params->get('box_shadow', 'medium');
@@ -141,23 +144,29 @@ $overlayStyle = sprintf(
 );
 
 $boxStyle = sprintf(
-    'width:%s;max-width:%s;height:%s;max-height:%s;background-color:%s;border:%s;box-shadow:%s;--hkpopup-offset-x:%dpx;--hkpopup-offset-y:%dpx;',
+    'width:%s;max-width:%s;height:%s;max-height:%s;background-color:%s;color:%s;border:%s;box-shadow:%s;--hkpopup-offset-x:%dpx;--hkpopup-offset-y:%dpx;',
     $widthCss,
     $maxWidthCss,
     $heightCss,
     $maxHeightCss,
     htmlspecialchars($bgColor, ENT_QUOTES),
+    htmlspecialchars($textColor !== '' ? $textColor : '#222222', ENT_QUOTES),
     $borderValue,
     $shadowValue,
     $offsetX,
     $offsetY
 );
+
+if ($linkColor !== '') {
+    $boxStyle .= sprintf('--hkpopup-link-color:%s;', htmlspecialchars($linkColor, ENT_QUOTES));
+}
 ?>
 <div id="<?php echo $uid; ?>"
      class="hkpopup-overlay"
      style="<?php echo $overlayStyle; ?>"
      data-delay="<?php echo $delayMs; ?>"
-     data-repeat="<?php echo htmlspecialchars($repeatMode, ENT_QUOTES); ?>">
+     data-repeat="<?php echo htmlspecialchars($repeatMode, ENT_QUOTES); ?>"
+     data-cookie-hours="<?php echo $cookieHours; ?>">
 
     <div class="hkpopup-box" style="<?php echo $boxStyle; ?>">
 

@@ -1,30 +1,54 @@
 /**
- * mod_popup – Verzögertes Einblenden, Schließen per Button / Klick auf den
- * abgedunkelten Hintergrund / Esc-Taste. Optional einmalig (pro Sitzung)
- * oder wiederholt (bei jedem Seitenaufruf) einblenden. Bewusst ohne jQuery
- * umgesetzt, da jQuery in Joomla 6 kein Kernbestandteil mehr ist.
+ * mod_popup – Delayed display; closes via button, click on the
+ * dimmed background, or the Esc key. Display can be set to appear once per
+ * session (sessionStorage), repeatedly (on every page view), or suppressed for
+ * a specific number of hours via a cookie. Deliberately implemented without
+ * jQuery, since jQuery is no longer a core component in Joomla 6.
  */
 (function () {
     'use strict';
 
+    function setCookie(name, value, hours) {
+        var expires = '';
+        if (hours) {
+            var date = new Date();
+            date.setTime(date.getTime() + hours * 60 * 60 * 1000);
+            expires = '; expires=' + date.toUTCString();
+        }
+        try {
+            document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/; SameSite=Lax';
+        } catch (e) {
+            // ignore, if Cookies are blocked
+        }
+    }
+
+    function getCookie(name) {
+        var match = document.cookie.match('(^|;\\s*)' + name + '=([^;]*)');
+        return match ? decodeURIComponent(match[2]) : null;
+    }
+
     function initPopup(overlay) {
-        var uid = overlay.id;
-        var storageKey = 'hkpopup_closed_' + uid;
-        var delay = parseInt(overlay.getAttribute('data-delay'), 10) || 0;
-        var repeatMode = overlay.getAttribute('data-repeat') || 'once';
+        var uid         = overlay.id;
+        var storageKey  = 'hkpopup_closed_' + uid;
+        var delay       = parseInt(overlay.getAttribute('data-delay'), 10) || 0;
+        var repeatMode  = overlay.getAttribute('data-repeat') || 'once';
+        var cookieHours = parseInt(overlay.getAttribute('data-cookie-hours'), 10) || 24;
+
+        var alreadyClosed = false;
 
         if (repeatMode === 'once') {
-            var alreadyClosed = false;
             try {
                 alreadyClosed = window.sessionStorage && sessionStorage.getItem(storageKey) === '1';
             } catch (e) {
-                // sessionStorage kann z.B. im privaten Modus mancher Browser blockiert sein.
+                // sessionStorage may be blocked, for example, in the incognito mode of some browsers.
             }
+        } else if (repeatMode === 'cookie') {
+            alreadyClosed = getCookie(storageKey) === '1';
+        }
 
-            if (alreadyClosed) {
-                overlay.parentNode && overlay.parentNode.removeChild(overlay);
-                return;
-            }
+        if (alreadyClosed) {
+            overlay.parentNode && overlay.parentNode.removeChild(overlay);
+            return;
         }
 
         function open() {
@@ -40,8 +64,10 @@
                 try {
                     sessionStorage.setItem(storageKey, '1');
                 } catch (e) {
-                    // ignorieren, wenn sessionStorage nicht verfügbar ist
+                    // Ignore if sessionStorage is not available
                 }
+            } else if (repeatMode === 'cookie') {
+                setCookie(storageKey, '1', cookieHours);
             }
 
             window.setTimeout(function () {
@@ -58,7 +84,7 @@
             closeBtn.addEventListener('click', close);
         }
 
-        // Klick auf den abgedunkelten Hintergrund (nicht auf die Box) schließt ebenfalls.
+        // Clicking on the darkened background (not on the box) also closes it.
         overlay.addEventListener('click', function (event) {
             if (event.target === overlay) {
                 close();

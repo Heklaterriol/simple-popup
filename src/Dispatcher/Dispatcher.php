@@ -2,6 +2,8 @@
 
 /**
  * @package     Simple Popup Module
+ * @subpackage  mod_popup
+ *
  * @copyright   Copyright (C) 2026 Hekla. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
