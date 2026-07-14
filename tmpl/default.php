@@ -170,13 +170,13 @@ if ($linkColor !== '') {
 
     <div class="hkpopup-box" style="<?php echo $boxStyle; ?>">
 
-        <button type="button" class="hkpopup-close" aria-label="<?php echo htmlspecialchars(Text::_('MOD_POPUP_CLOSE'), ENT_QUOTES); ?>">&times;</button>
+        <button type="button" class="hkpopup-close" aria-label="<?php echo htmlspecialchars(Text::_('MOD_SIMPLEPOPUP_CLOSE'), ENT_QUOTES); ?>">&times;</button>
 
         <?php if ($linkUrl !== '') : ?>
             <a class="hkpopup-link-overlay"
                href="<?php echo htmlspecialchars($linkUrl, ENT_QUOTES); ?>"
                <?php echo $linkTargetBlank ? 'target="_blank" rel="noopener"' : ''; ?>
-               aria-label="<?php echo htmlspecialchars(Text::_('MOD_POPUP_LINK_LABEL'), ENT_QUOTES); ?>"></a>
+               aria-label="<?php echo htmlspecialchars(Text::_('MOD_SIMPLEPOPUP_LINK_LABEL'), ENT_QUOTES); ?>"></a>
         <?php endif; ?>
 
         <div class="hkpopup-content">
