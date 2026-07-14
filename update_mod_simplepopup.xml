@@ -10,7 +10,7 @@
         <version>1.3.1</version>
         <infourl title="Simple Popup Module">https://github.com/Heklaterriol/Simple-Popup-for-Joomla/blob/main/README.md</infourl>
         <downloads>
-            <downloadurl type="full" format="zip">https://github.com/Heklaterriol/Simple-Popup-for-Joomla/releases/download/v.1.3.0/mod_simplepopup_v1.3.zip</downloadurl>
+            <downloadurl type="full" format="zip">https://github.com/Heklaterriol/Simple-Popup-for-Joomla/releases/download/v.1.3.1/mod_simplepopup_v1.3.zip</downloadurl>
         </downloads>
         <tags>
             <tag>stable</tag>
@@ -19,9 +19,9 @@
         <maintainerurl>github.com/Heklaterriol/Simple-Popup-for-Joomla/</maintainerurl>
         <targetplatform name="joomla" version="^(5\.[4-9].*|6\..*)$"/>
         <php_minimum>8.1</php_minimum>
-        <sha256>7086b43d200e08fd4250d79b7e8605701b53e15988e305db75274e8957f3a3f6</sha256>
-        <sha384>d9874cf8d67f1680d125c9523570a7636e0f900907018aab29fa3a2aea3cbb3a20fa749019b69ed3c3b6e3459ca7d52e</sha384>
-        <sha512>db9133288032a35831048a5ef568ab085e487003cae4f230d881c6f0c7e58c7b8e96b9a9fd9038caff380c0ed2fdadb90324ea09014d7a4b1ffbcc60114a00ed</sha512>
+        <sha256>907eeb3d95cbf2a2d576a006d9fb00d66fca944ac75757d683433b8bca2e4c8a</sha256>
+        <sha384>a6663b1318f92d518eec9dd4ea183427625f10dbbf292fc880c1088626228054096551503c2cdd05cf6f5dbb2e35b0b9</sha384>
+        <sha512>2d6552609c823951e893e53afabba52428e5e76f004fec948eb46b00123bbfcdac61fd7ec3437069bda228c790d65f7568063ab608bb525a3da34b20ec0587d9</sha512>
         <date>2026-07-14 18:00</date>
         <notes>Simple Popup Module v1.3.1 for Joomla! 5.4.x and Joomla! 6.x. Requires PHP 8.1 or newer. Configurable popup module for Joomla 5/6. Shows a popup with freely editable HTML content after an adjustable delay - as a centred modal, a bar at the top/bottom edge, or a panel anchored to one of the four corners/sides, with a dimmed page background.</notes>
         <changes>Add Joomla native update routine.</changes>
