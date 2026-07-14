@@ -1,5 +1,5 @@
 /**
- * mod_popup – Delayed display; closes via button, click on the
+ * mod_simplepopup – Delayed display; closes via button, click on the
  * dimmed background, or the Esc key. Display can be set to appear once per
  * session (sessionStorage), repeatedly (on every page view), or suppressed for
  * a specific number of hours via a cookie. Deliberately implemented without

@@ -1,4 +1,4 @@
-/* mod_popup – Layout, Positionierung und Animation.
+/* mod_simplepopup – Layout, Positionierung und Animation.
    Ausrichtung (align-items/justify-content), Größe, Hintergrundfarbe, Rand
    und Schatten kommen als Inline-Style aus den Moduleinstellungen
    (tmpl/default.php) und werden hier bewusst nicht erneut gesetzt. */

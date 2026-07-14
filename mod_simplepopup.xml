@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" client="site" method="upgrade">
-    <name>MOD_POPUP</name>
+    <name>MOD_SIMPLEPOPUP</name>
     <author>Hekla</author>
     <creationDate>2026-07</creationDate>
     <copyright>Copyright (C) 2026 Hekla. All rights reserved.</copyright>
@@ -9,20 +9,20 @@
     <description>MOD_SIMPLEPOPUP_XML_DESCRIPTION</description>
     <namespace path="src">Hekla\Module\Popup</namespace>
     <files>
-        <folder module="mod_popup">services</folder>
+        <folder module="mod_simplepopup">services</folder>
         <folder>src</folder>
         <folder>tmpl</folder>
         <folder>language</folder>
-        <file>mod_popup.xml</file>
+        <file>mod_simplepopup.xml</file>
         <file>README.md</file>
     </files>
     <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_popup.ini</language>
-        <language tag="en-GB">language/en-GB/en-GB.mod_popup.sys.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.mod_popup.ini</language>
-        <language tag="de-DE">language/de-DE/de-DE.mod_popup.sys.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_simplepopup.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_simplepopup.sys.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_simplepopup.ini</language>
+        <language tag="de-DE">language/de-DE/de-DE.mod_simplepopup.sys.ini</language>
     </languages>
-    <media destination="mod_popup" folder="media">
+    <media destination="mod_simplepopup" folder="media">
         <folder>css</folder>
         <folder>js</folder>
     </media>

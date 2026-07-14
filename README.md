@@ -1,4 +1,4 @@
-# Simple Popup for Joomla (mod_popup)
+# Simple Popup for Joomla (mod_simplepopup)
 
 Configurable popup module for Joomla 5/6. Shows a popup with freely
 editable HTML content after an adjustable delay - as a centred modal, a
@@ -56,8 +56,8 @@ Then, under **Content → Site Modules**, create a new module of type
 ## Technical structure
 
 ```
-mod_popup/
-├── mod_popup.xml            Manifest, module settings (<config>)
+mod_simplepopup/
+├── mod_simplepopup.xml            Manifest, module settings (<config>)
 ├── services/provider.php    DI registration (dispatcher factory)
 ├── src/
 │   └── Dispatcher/Dispatcher.php   provides, among other things, a per-instance unique "uid"

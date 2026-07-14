@@ -24,15 +24,15 @@ use Joomla\CMS\Language\Text;
 // anyway after that.
 $wa = Factory::getApplication()->getDocument()->getWebAssetManager();
 
-if (!$wa->assetExists('style', 'mod_popup.popup')) {
-    $wa->registerStyle('mod_popup.popup', 'mod_popup/popup.css');
+if (!$wa->assetExists('style', 'mod_simplepopup.popup')) {
+    $wa->registerStyle('mod_simplepopup.popup', 'mod_simplepopup/popup.css');
 }
 
-if (!$wa->assetExists('script', 'mod_popup.popup')) {
-    $wa->registerScript('mod_popup.popup', 'mod_popup/popup.js', [], ['defer' => true]);
+if (!$wa->assetExists('script', 'mod_simplepopup.popup')) {
+    $wa->registerScript('mod_simplepopup.popup', 'mod_simplepopup/popup.js', [], ['defer' => true]);
 }
 
-$wa->useStyle('mod_popup.popup')->useScript('mod_popup.popup');
+$wa->useStyle('mod_simplepopup.popup')->useScript('mod_simplepopup.popup');
 
 $content         = (string) $params->get('content', '');
 $linkUrl         = trim((string) $params->get('link_url', ''));
